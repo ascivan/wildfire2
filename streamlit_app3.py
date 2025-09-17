@@ -58,18 +58,18 @@ def clasificar_imagen(imagen_bytes):
 # INTERFAZ STREAMLIT
 # ==============================
 st.title("🔥🌲 Clasificador de Incendios Forestales")
-st.write("Sube hasta 5 imágenes y verás la clasificación y probabilidad de cada una.")
+st.write("Sube hasta 10 imágenes")
 
 uploaded_files = st.file_uploader(
-    "Selecciona una o más imágenes (máximo 5)",
+    "Selecciona una o más imágenes (máximo 10)",
     type=["jpg", "jpeg", "png"],
     accept_multiple_files=True
 )
 
 if uploaded_files:
-    if len(uploaded_files) > 5:
-        st.warning("Se ha superado el límite de 5 imágenes. Solo se procesarán las primeras 5.")
-        uploaded_files = uploaded_files[:5]
+    if len(uploaded_files) > 10:
+        st.warning("Se ha superado el límite de 10 imágenes. Solo se procesarán las primeras 10.")
+        uploaded_files = uploaded_files[:10]
     
     st.markdown("---")
     
