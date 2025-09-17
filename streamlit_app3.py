@@ -58,18 +58,41 @@ def clasificar_imagen(imagen_bytes):
 # INTERFAZ STREAMLIT
 # ==============================
 st.title("🔥🌲 Clasificador de Incendios Forestales")
-st.write("Sube hasta 10 imágenes")
+st.write("Sube hasta 10 imágenes y verás la clasificación y probabilidad de cada una.")
 
-uploaded_files = st.file_uploader(
-    "Selecciona una o más imágenes (máximo 10)",
-    type=["jpg", "jpeg", "png"],
-    accept_multiple_files=True
-)
+# Inicializa st.session_state si aún no existe
+if "uploaded_files" not in st.session_state:
+    st.session_state.uploaded_files = []
 
-if uploaded_files:
-    if len(uploaded_files) > 10:
+# ==============================
+# GESTIÓN DE ARCHIVOS Y BOTONES
+# ==============================
+# Contenedor para los botones y el uploader
+col_uploader, col_reset = st.columns([4, 1])
+
+with col_uploader:
+    new_uploaded_files = st.file_uploader(
+        "Selecciona una o más imágenes (máximo 10)",
+        type=["jpg", "jpeg", "png"],
+        accept_multiple_files=True
+    )
+    # Si se cargaron nuevos archivos, actualiza el estado de la sesión
+    if new_uploaded_files:
+        st.session_state.uploaded_files = new_uploaded_files
+        
+with col_reset:
+    st.write("") # Espacio para alinear el botón
+    if st.button("Reiniciar"):
+        st.session_state.uploaded_files = []
+        st.experimental_rerun() # Fuerza una nueva ejecución para limpiar la pantalla
+
+# ==============================
+# MOSTRAR RESULTADOS
+# ==============================
+if st.session_state.uploaded_files:
+    if len(st.session_state.uploaded_files) > 10:
         st.warning("Se ha superado el límite de 10 imágenes. Solo se procesarán las primeras 10.")
-        uploaded_files = uploaded_files[:10]
+        st.session_state.uploaded_files = st.session_state.uploaded_files[:10]
     
     st.markdown("---")
     
@@ -86,7 +109,7 @@ if uploaded_files:
     
     st.markdown("---")
 
-    for i, uploaded_file in enumerate(uploaded_files):
+    for i, uploaded_file in enumerate(st.session_state.uploaded_files):
         # Divide la fila en 4 columnas
         col1, col2, col3, col4 = st.columns([1, 2, 1.5, 1])
         
