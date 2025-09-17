@@ -88,7 +88,7 @@ with col_uploader:
         
 with col_reset:
     st.write("") # Espacio para alinear el botón
-    if st.button("Reiniciar"):
+    if st.button("Reiniciar todo"):
         reset_uploader()
 
 # ==============================
