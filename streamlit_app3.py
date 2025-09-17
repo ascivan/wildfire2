@@ -102,7 +102,9 @@ if st.session_state.uploaded_files:
     st.markdown("---")
     
     # Crea las columnas de la tabla (solo los encabezados)
-    col1, col2, col3, col4 = st.columns([1, 2, 1.5, 1])
+    # Ajustar el ratio de las columnas si es necesario para acomodar imágenes más grandes
+    # Por ejemplo, la primera columna (imagen) podría necesitar más espacio
+    col1, col2, col3, col4 = st.columns([1.5, 2, 1.5, 1]) # Ajustado col1 de 1 a 1.5
     with col1:
         st.subheader("Imagen")
     with col2:
@@ -116,12 +118,12 @@ if st.session_state.uploaded_files:
 
     for i, uploaded_file in enumerate(st.session_state.uploaded_files):
         # Divide la fila en 4 columnas
-        col1, col2, col3, col4 = st.columns([1, 2, 1.5, 1])
+        col1, col2, col3, col4 = st.columns([1.5, 2, 1.5, 1]) # Ajustado col1 de 1 a 1.5
         
         # Columna 1: Imagen
         with col1:
             image = Image.open(uploaded_file)
-            st.image(image, width=100)
+            st.image(image, width=200) # ¡Aquí está el cambio!
             
         # Clasificar la imagen
         pred = clasificar_imagen(uploaded_file)
