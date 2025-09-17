@@ -123,7 +123,7 @@ if st.session_state.uploaded_files:
         # Columna 1: Imagen
         with col1:
             image = Image.open(uploaded_file)
-            st.image(image, width=200) # ¡Aquí está el cambio!
+            st.image(image, width=150) # ¡Aquí está el cambio!
             
         # Clasificar la imagen
         pred = clasificar_imagen(uploaded_file)
