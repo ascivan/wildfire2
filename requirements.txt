@@ -1,9 +1,10 @@
 ﻿streamlit
-tensorflow = 2.11
+tensorflow == 2.11
 keras
 opencv-python
-numpy = 1.25.4
+numpy == 1.25.4
 matplotlib
 pillow
 
 scikit-image
+
