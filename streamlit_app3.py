@@ -2,9 +2,6 @@
 #   STREAMLIT APP - CLASIFICACIÓN INCENDIOS FORESTALES
 # ========================================
 
-# Instalar dependencias (ejecutar en terminal antes de correr streamlit)
-# pip install streamlit pillow opencv-python matplotlib scikit-image tensorflow==2.15 keras==2.15
-
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
@@ -63,10 +60,18 @@ st.write("Sube hasta 10 imágenes y verás la clasificación y probabilidad de c
 # Inicializa st.session_state si aún no existe
 if "uploaded_files" not in st.session_state:
     st.session_state.uploaded_files = []
+if "uploader_key" not in st.session_state:
+    st.session_state.uploader_key = 0
 
 # ==============================
 # GESTIÓN DE ARCHIVOS Y BOTONES
 # ==============================
+def reset_uploader():
+    """Función para limpiar los archivos subidos y forzar el reinicio del uploader."""
+    st.session_state.uploaded_files = []
+    st.session_state.uploader_key += 1
+    st.experimental_rerun()
+
 # Contenedor para los botones y el uploader
 col_uploader, col_reset = st.columns([4, 1])
 
@@ -74,7 +79,8 @@ with col_uploader:
     new_uploaded_files = st.file_uploader(
         "Selecciona una o más imágenes (máximo 10)",
         type=["jpg", "jpeg", "png"],
-        accept_multiple_files=True
+        accept_multiple_files=True,
+        key=st.session_state.uploader_key
     )
     # Si se cargaron nuevos archivos, actualiza el estado de la sesión
     if new_uploaded_files:
@@ -83,8 +89,7 @@ with col_uploader:
 with col_reset:
     st.write("") # Espacio para alinear el botón
     if st.button("Reiniciar"):
-        st.session_state.uploaded_files = []
-        st.experimental_rerun() # Fuerza una nueva ejecución para limpiar la pantalla
+        reset_uploader()
 
 # ==============================
 # MOSTRAR RESULTADOS
